@@ -1,0 +1,37 @@
+[
+  {
+    "name": "exact allowed request",
+    "method": "GET",
+    "url": "https://api.example.com/v1/status",
+    "expected_allowed": true,
+    "expected_reason": "ALLOW_RULE"
+  },
+  {
+    "name": "deny overrides allow",
+    "method": "GET",
+    "url": "https://api.example.com/v1/export/records",
+    "expected_allowed": false,
+    "expected_reason": "DENY_RULE"
+  },
+  {
+    "name": "subdomain is not implied",
+    "method": "GET",
+    "url": "https://child.api.example.com/v1/status",
+    "expected_allowed": false,
+    "expected_reason": "DEFAULT_DENY"
+  },
+  {
+    "name": "write method is excluded",
+    "method": "POST",
+    "url": "https://api.example.com/v1/status",
+    "expected_allowed": false,
+    "expected_reason": "DEFAULT_DENY"
+  },
+  {
+    "name": "dot segment cannot escape path scope",
+    "method": "GET",
+    "url": "https://api.example.com/v1/../admin",
+    "expected_allowed": false,
+    "expected_reason": "INVALID_TARGET"
+  }
+]

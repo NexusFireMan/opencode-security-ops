@@ -1,0 +1,15 @@
+opencode-security-ops
+
+Copyright (c) 2026 NexusFireMan
+
+This project contains original implementation informed by publicly available ideas from:
+
+- Claude-BugHunter by Sachin Sharma / ElementalSoul
+  https://github.com/elementalsouls/Claude-BugHunter
+  Knowledge-layer routing, finding validation, evidence hygiene, and responsible reporting concepts.
+
+- opencode-pentester by humaidhahm and its credited upstream projects
+  https://github.com/humaidhahm/opencode-pentester
+  SQLite engagement state, leads ledgers, command logging, pipeline planning, and handoff concepts.
+
+No source code, payload catalogs, or skill content from those projects is vendored here. Their respective licenses and attribution requirements continue to apply to their projects.

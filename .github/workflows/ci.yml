@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Unit and contract tests
+        run: bash install.sh --check
+      - name: Python syntax
+        run: python3 -m compileall -q .opencode/skills/opencode-security-ops/scripts tests evals
+      - name: Shell syntax
+        run: bash -n install.sh
+      - name: Deterministic evals
+        run: python3 evals/run.py
+      - name: Isolated installer lifecycle
+        run: |
+          export XDG_CONFIG_HOME="$RUNNER_TEMP/secops-config"
+          bash install.sh --global
+          test -f "$XDG_CONFIG_HOME/opencode/skills/opencode-security-ops/SKILL.md"
+          test -f "$XDG_CONFIG_HOME/opencode/agents/secops-orchestrator.md"
+          test -f "$XDG_CONFIG_HOME/opencode/commands/secops/engage.md"
+          bash install.sh --uninstall
+          test ! -e "$XDG_CONFIG_HOME/opencode/skills/opencode-security-ops"
+          test ! -e "$XDG_CONFIG_HOME/opencode/commands/secops"

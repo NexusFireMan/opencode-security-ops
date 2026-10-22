@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "name": "cloud-external",
+  "steps": [
+    {"id": "scope", "action": "scope-check", "active": false, "description": "Validate the exact public cloud resource endpoint and permitted methods."},
+    {"id": "inspect", "action": "inspect", "active": false, "depends_on": ["scope"], "description": "Review supplied IAM policies, deployment configuration, and sanitized inventory."},
+    {"id": "passive", "action": "passive-recon", "active": false, "depends_on": ["inspect"], "description": "Map explicitly named public resources without discovering or touching other accounts."},
+    {"id": "bounded", "action": "bounded-test", "active": true, "approval_required": true, "depends_on": ["passive"], "description": "Use read-only identity/configuration checks; no writes, role changes, or privilege escalation."},
+    {"id": "validate", "action": "validate", "active": false, "depends_on": ["bounded"], "description": "Confirm exposure with minimal sanitized evidence."},
+    {"id": "report", "action": "report", "active": false, "depends_on": ["validate"], "description": "Produce remediation-focused findings and limitations."}
+  ]
+}

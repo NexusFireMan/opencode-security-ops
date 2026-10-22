@@ -1,0 +1,11 @@
+.secops/
+__pycache__/
+*.py[cod]
+.coverage
+htmlcov/
+.pytest_cache/
+security/reports/
+evidence/
+*.env
+*.env.*
+!.env.example

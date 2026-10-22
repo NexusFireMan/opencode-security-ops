@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "name": "web-api",
+  "steps": [
+    {"id": "scope", "action": "scope-check", "active": false, "description": "Validate every exact method and URL against deny-first scope."},
+    {"id": "inspect", "action": "inspect", "active": false, "depends_on": ["scope"], "description": "Review supplied source, API descriptions, and existing artifacts."},
+    {"id": "passive", "action": "passive-recon", "active": false, "depends_on": ["inspect"], "description": "Map only explicitly scoped public assets without probing discovered hosts."},
+    {"id": "bounded", "action": "bounded-test", "active": true, "approval_required": true, "depends_on": ["passive"], "description": "Run approved read-only hypotheses at declared rate and concurrency limits."},
+    {"id": "validate", "action": "validate", "active": false, "depends_on": ["bounded"], "description": "Require sanitized evidence and eliminate alternative explanations."},
+    {"id": "report", "action": "report", "active": false, "depends_on": ["validate"], "description": "Generate a factual report and open-lead handoff."}
+  ]
+}

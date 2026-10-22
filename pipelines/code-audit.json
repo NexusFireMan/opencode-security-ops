@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "name": "code-audit",
+  "steps": [
+    {"id": "inspect", "action": "inspect", "active": false, "description": "Map trust boundaries, entry points, data stores, and security-sensitive flows."},
+    {"id": "validate", "action": "validate", "active": false, "depends_on": ["inspect"], "description": "Trace source to sink and require exact file/line evidence for every finding."},
+    {"id": "report", "action": "report", "active": false, "depends_on": ["validate"], "description": "Report findings, unknowns, non-applicable categories, and prioritized fixes."}
+  ]
+}
