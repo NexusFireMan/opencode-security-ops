@@ -63,7 +63,9 @@ install_global() {
 {"installed_at":"$(date -u +%FT%TZ)","source":"$ROOT","version":"0.1.0"}
 EOF
   echo "Installed into $DEST"
-  [[ -d "$BACKUP" ]] && echo "Previous files backed up to $BACKUP"
+  if [[ -d "$BACKUP" ]]; then
+    echo "Previous files backed up to $BACKUP"
+  fi
 }
 
 uninstall_global() {
