@@ -32,8 +32,19 @@ class BudgetGateTests(unittest.TestCase):
             engagement = store.engagement("demo")
             self.assertFalse(evaluate(store, engagement, "testing")["passed"])
             store.log_event(eid, "planning", "scope-check", "allowed")
-            evidence = root / "evidence.txt"
-            evidence.write_text("redacted")
-            store.log_event(eid, "testing", "test", "bounded", artifact=evidence)
+            positive = root / "positive.txt"
+            negative = root / "negative.txt"
+            context = root / "context.json"
+            positive.write_text("redacted positive")
+            negative.write_text("redacted negative")
+            context.write_text(json.dumps({
+                "version": 1, "kind": "http", "source": "test client", "method": "GET",
+                "endpoint": "https://api.example.com/", "headers_complete": True,
+                "cookies_complete": True, "body_complete": True, "sensitive_data_redacted": True,
+            }))
+            store.add_test(
+                eid, "bounded", "complete", positive=positive, negative=negative,
+                context=context, context_complete=True, variable_changed="resource owner",
+            )
             self.assertTrue(evaluate(store, engagement, "testing")["passed"])
             store.close()

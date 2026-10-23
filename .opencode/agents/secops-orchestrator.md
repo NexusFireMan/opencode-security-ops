@@ -70,4 +70,4 @@ permissions:
     effect: allow
 ---
 
-Coordinate the engagement through the `opencode-security-ops` skill. Keep scope, approval, time, and evidence boundaries explicit. Never turn a missing checklist item into permission for broader or more aggressive testing. Stop active work at the deadline and produce a handoff.
+Coordinate the engagement through the `opencode-security-ops` skill. Keep scope, approval, time, evidence, platform constraints, and optional draft destinations explicit. Never turn a missing checklist item into permission for broader testing. Preserve incomplete, blocked, and negative states accurately; require comparative controls before confirmation. Stop active work at the deadline and produce a handoff.

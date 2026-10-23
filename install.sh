@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DEST="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
 BACKUP="$DEST/install-backups/opencode-security-ops-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+VERSION="$(cat "$ROOT/VERSION")"
 
 usage() {
   cat <<'EOF'
@@ -21,6 +22,8 @@ check() {
   python3 -m unittest discover -s "$ROOT/tests" -v
   PYTHONPATH="$ROOT/.opencode/skills/opencode-security-ops/scripts" \
     python3 -m secops pipeline-plan --file "$ROOT/pipelines/web-api.json" >/dev/null
+  python3 -m compileall -q "$ROOT/.opencode/skills/opencode-security-ops/scripts" "$ROOT/tests" "$ROOT/evals"
+  python3 "$ROOT/evals/run.py" >/dev/null
   echo "Checks passed."
 }
 
@@ -60,7 +63,7 @@ install_global() {
   cp -a "$ROOT/.opencode/commands/secops" "$DEST/commands/secops"
   mkdir -p "$DEST/opencode-security-ops"
   cat >"$DEST/opencode-security-ops/install.json" <<EOF
-{"installed_at":"$(date -u +%FT%TZ)","source":"$ROOT","version":"0.1.0"}
+{"installed_at":"$(date -u +%FT%TZ)","source":"$ROOT","version":"$VERSION"}
 EOF
   echo "Installed into $DEST"
   if [[ -d "$BACKUP" ]]; then

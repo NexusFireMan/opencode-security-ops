@@ -94,3 +94,33 @@ class CliTests(unittest.TestCase):
             handoff = root / "handoff.md"
             self.run_cli(root, "handoff", "--engagement", "demo", "--output", str(handoff))
             self.assertIn("operator request", handoff.read_text())
+
+    def test_platform_hypothesis_test_and_optional_export(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            scope_path = root / "scope.json"
+            scope_path.write_text(json.dumps({
+                "version": 1, "mode": "api",
+                "authorization": {"confirmed": True, "reference": "TEST-WORKFLOW"},
+                "allow": [{"host": "api.example.com"}], "deny": [],
+            }))
+            output = root / "operator-drafts"
+            created = self.run_cli(
+                root, "init", "--name", "demo", "--scope", str(scope_path), "--minutes", "10",
+                "--platform", "bugcrowd", "--program", "Demo Program",
+                "--output-dir", str(output), "--layout", "platform-program",
+            )
+            self.assertEqual(created["platform"], "bugcrowd")
+            hypothesis = self.run_cli(
+                root, "hypothesis-add", "--engagement", "demo", "--title", "Possible IDOR",
+                "--root-cause", "owner not checked", "--security-boundary", "account isolation",
+                "--attacker-gain", "read another test account",
+            )
+            self.run_cli(
+                root, "hypothesis-update", "--engagement", "demo", "--id", str(hypothesis["hypothesis_id"]),
+                "--status", "incomplete", "--resolution", "second test account unavailable",
+            )
+            exported = self.run_cli(root, "draft-export", "--engagement", "demo")
+            destination = Path(exported["destination"])
+            self.assertTrue((destination / ".secops-generated/state.json").is_file())
+            self.assertTrue((destination / "findings").is_dir())

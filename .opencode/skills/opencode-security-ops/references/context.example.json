@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "kind": "http",
+  "source": "Burp Repeater request captured from the real client flow",
+  "method": "GET",
+  "endpoint": "https://api.example.com/v1/resource (no secret query values)",
+  "headers_complete": true,
+  "cookies_complete": true,
+  "body_complete": true,
+  "sensitive_data_redacted": true
+}

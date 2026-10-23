@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "kind": "script",
+  "entrypoint": "poc.py",
+  "dependencies": ["requests>=2.31"],
+  "required_environment": ["TARGET_URL", "TEST_ACCOUNT_TOKEN"],
+  "check_mode": true,
+  "timeout_seconds": 15,
+  "uses_local_proxy": false,
+  "destructive_by_default": false,
+  "clean_environment_tested": true
+}

@@ -33,6 +33,9 @@ class OpenCodeFilesTests(unittest.TestCase):
 
     def test_commands_are_namespaced_and_have_no_shell_expansion(self):
         commands = list((ROOT / ".opencode/commands/secops").glob("*.md"))
-        self.assertEqual(len(commands), 4)
+        self.assertEqual(
+            {path.stem for path in commands},
+            {"engage", "audit", "validate", "report", "intake", "hypothesis", "retest", "close", "lessons"},
+        )
         for path in commands:
             self.assertNotIn("!`", path.read_text())

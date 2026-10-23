@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "platform": "hackerone",
+  "program": "Example Program",
+  "constraints": {
+    "submission_limit": 2,
+    "user_agent": "Program-specific value if required",
+    "account_requirements": "Use self-created researcher accounts only",
+    "automation_rules": "Low-rate automation only",
+    "rate_limit_note": "Respect the stricter program limit",
+    "excluded_techniques": ["denial of service", "social engineering"],
+    "notes": "Sanitized operational notes only"
+  }
+}
